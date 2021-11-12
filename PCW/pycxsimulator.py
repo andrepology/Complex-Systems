@@ -1,40 +1,52 @@
-import pylab as PL
-from tkinter import ttk
-from tkinter import *
-from tkinter.ttk import Notebook
+import matplotlib
 
+#System check added by Steve Morgan
+import platform #SM 3/28/2020
+if platform.system() == 'Windows': #SM 3/28/2020
+    backend = 'TkAgg'              #SM 3/28/2020
+else:                              #SM 3/28/2020
+    backend = 'Qt5Agg'             #SM 3/28/2020
+matplotlib.use(backend)            #SM 3/28/2020
+
+import matplotlib.pyplot as plt #SM 3/28/2020
+
+## version check added by Hiroki Sayama on 01/08/2019
+import sys
+if sys.version_info[0] == 3: # Python 3
+    from tkinter import *
+    from tkinter.ttk import Notebook
+else:                        # Python 2
+    from Tkinter import *
+    from ttk import Notebook
+
+## suppressing matplotlib deprecation warnings (especially with subplot) by Hiroki Sayama on 06/29/2020
+import warnings
+warnings.filterwarnings("ignore", category = matplotlib.cbook.MatplotlibDeprecationWarning)
 
 class GUI:
 
-    ## GUI variables
-    titleText = 'PyCX Simulator'  # window title
-    timeInterval = 0              # refresh time in milliseconds
-    running = False
-    modelFigure = None
-    stepSize = 1
-    currentStep = 0
-    
     # Constructor
-    def __init__(self, title='PyCX Simulator', interval=0, stepSize=1, parameterSetters=[], p = 0.5):
+    def __init__(self, title='PyCX Simulator', interval=0, stepSize=1, parameterSetters=[]):
+
+        ## all GUI variables moved to inside constructor by Hiroki Sayama 10/09/2018
+
         self.titleText = title
         self.timeInterval = interval
         self.stepSize = stepSize
-        self.p = p
         self.parameterSetters = parameterSetters
         self.varEntries = {}
         self.statusStr = ""
 
-        self.density = []
-               
-        self.initGUI()
-        
-        
-    # Initialization
-    def initGUI(self):
+        self.running = False
+        self.modelFigure = None
+        self.currentStep = 0
+
+        # initGUI() removed by Hiroki Sayama 10/09/2018
         
         #create root window
         self.rootWindow = Tk()
-        self.statusText = StringVar(value=self.statusStr) # at this point, statusStr = ""
+        self.statusText = StringVar(self.rootWindow, value=self.statusStr) # at this point, statusStr = ""
+        # added "self.rootWindow" above by Hiroki Sayama 10/09/2018
         self.setStatusStr("Simulation not yet started")
 
         self.rootWindow.wm_title(self.titleText) # titleText = 'PyCX Simulator'
@@ -47,10 +59,11 @@ class GUI:
         # self.notebook.grid(row=0,column=0,padx=2,pady=2,sticky='nswe') # commented out by toshi on 2016-06-21(Tue) 18:30:25
         self.notebook.pack(side=TOP, padx=2, pady=2)
         
-        self.frameRun = Frame()
-        self.frameSettings = Frame()
-        self.frameParameters = Frame()
-        self.frameInformation = Frame()          
+        # added "self.rootWindow" by Hiroki Sayama 10/09/2018
+        self.frameRun = Frame(self.rootWindow)
+        self.frameSettings = Frame(self.rootWindow)
+        self.frameParameters = Frame(self.rootWindow)
+        self.frameInformation = Frame(self.rootWindow)
         
         self.notebook.add(self.frameRun,text="Run")
         self.notebook.add(self.frameSettings,text="Settings")
@@ -67,7 +80,7 @@ class GUI:
         # frameRun
         # -----------------------------------
         # buttonRun
-        self.runPauseString = StringVar()
+        self.runPauseString = StringVar(self.rootWindow) # added "self.rootWindow" by Hiroki Sayama 10/09/2018
         self.runPauseString.set("Run")
         self.buttonRun = Button(self.frameRun,width=30,height=2,textvariable=self.runPauseString,command=self.runEvent)
         self.buttonRun.pack(side=TOP, padx=5, pady=5)
@@ -82,7 +95,6 @@ class GUI:
         self.buttonReset = Button(self.frameRun,width=30,height=2,text='Reset',command=self.resetModel)
         self.buttonReset.pack(side=TOP, padx=5, pady=5) 
         self.showHelp(self.buttonReset,"Resets the simulation")
-
 
         # -----------------------------------
         # frameSettings
@@ -109,16 +121,6 @@ class GUI:
         self.stepDelay.pack(side='left')
         
         can.pack(side='top')
-
-        can = Canvas(self.frameSettings)
-        lab = Label(can, width=25,height=1,text="Parameter p", justify=LEFT, anchor=W,takefocus=0  )
-        lab.pack(side='left')
-        self.panicScale  = Scale(can, from_ = 0, to = 1, resolution = 0.05, command  = self.setP, orient=HORIZONTAL, width=25,length=150 )
-        self.panicScale.set(self.p)
-        self.panicScale.pack(side = "left")
-
-        can.pack(side="top")
-
         
         # --------------------------------------------
         # frameInformation
@@ -134,7 +136,6 @@ class GUI:
         # ParameterSetters
         # --------------------------------------------
         for variableSetter in self.parameterSetters:
-            print(self.parameterSetters)
             can = Canvas(self.frameParameters)
             
             lab = Label(can, width=25,height=1,text=variableSetter.__name__+" ",anchor=W,takefocus=0)
@@ -162,20 +163,16 @@ class GUI:
                                                        command=self.saveParametersAndResetCmd,text="Save parameters to the model and reset the model")
             self.showHelp(self.buttonSaveParametersAndReset,"Saves the given parameter values and resets the model")
             self.buttonSaveParametersAndReset.pack(side='top',padx=5,pady=5)
+            
     # <<<<< Init >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     
     def setStatusStr(self,newStatus):
         self.statusStr = newStatus
-        self.statusText.set(self.statusStr)
-        
+        self.statusText.set(self.statusStr)        
         
     # model control functions for changing parameters
     def changeStepSize(self,val):        
         self.stepSize = int(val)
-
-    def setP(self, val):
-        self.p = float(val)
-    
         
     def changeStepDelay(self,val):        
         self.timeInterval= int(val)
@@ -189,7 +186,6 @@ class GUI:
         self.saveParametersCmd()
         self.resetModel()
 
-        
     # <<<< runEvent >>>>>
     # This event is envoked when "Run" button is clicked.
     def runEvent(self):
@@ -212,19 +208,13 @@ class GUI:
 
     def stepModel(self):
         if self.running:
-            if self.currentStep < 20:
-                curr_density = self.modelStepFunc()
-                self.density.append(curr_density)
-
-                self.currentStep += 1
-                self.setStatusStr("Step "+str(self.currentStep))
-                self.status.configure(foreground='black')
-                if (self.currentStep) % self.stepSize == 0:
-                    self.drawModel()
-                    self.rootWindow.after(int(self.timeInterval*1.0/self.stepSize),self.stepModel)
-            else:
-                print(self.currentStep, self.density)
-                return self.density
+            self.modelStepFunc()
+            self.currentStep += 1
+            self.setStatusStr("Step "+str(self.currentStep))
+            self.status.configure(foreground='black')
+            if (self.currentStep) % self.stepSize == 0:
+                self.drawModel()
+            self.rootWindow.after(int(self.timeInterval*1.0/self.stepSize),self.stepModel)
 
     def stepOnce(self):
         self.running = False
@@ -239,18 +229,18 @@ class GUI:
     def resetModel(self):
         self.running = False        
         self.runPauseString.set("Run")
-        self.modelInitFunc(self.p)
+        self.modelInitFunc()
         self.currentStep = 0;
         self.setStatusStr("Model has been reset")
         self.drawModel()
 
     def drawModel(self):
-        PL.ion() # bug fix by Alex Hill in 2013
-        if self.modelFigure == None or self.modelFigure.canvas.manager.window == None:
-            self.modelFigure = PL.figure()
+        plt.ion() #SM 3/26/2020
+        if self.modelFigure == None or self.modelFigure.canvas.manager.window == None: 
+            self.modelFigure = plt.figure() #SM 3/26/2020
         self.modelDrawFunc()
         self.modelFigure.canvas.manager.window.update()
-        PL.show() # bug fix by Hiroki Sayama in 2016
+        plt.show() # bug fix by Hiroki Sayama in 2016 #SM 3/26/2020
 
     def start(self,func=[]):
         if len(func)==3:
@@ -265,20 +255,20 @@ class GUI:
                 self.textInformation.insert(END, self.modelInitFunc.__doc__.strip())
                 self.textInformation.config(state=DISABLED)
                 
-            self.modelInitFunc(self.p)
+            self.modelInitFunc()
             self.drawModel()     
         self.rootWindow.mainloop()
 
     def quitGUI(self):
-        PL.close('all')
+        self.running = False # HS 06/29/2020
         self.rootWindow.quit()
+        plt.close('all') # HS 06/29/2020
         self.rootWindow.destroy()
     
     def showHelp(self, widget,text):
         def setText(self):
             self.statusText.set(text)
             self.status.configure(foreground='blue')
-            
         def showHelpLeave(self):
             self.statusText.set(self.statusStr)
             self.status.configure(foreground='black')

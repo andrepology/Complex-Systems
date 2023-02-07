@@ -1,0 +1,36 @@
+Date : 2022-12-07 22:23:42
+Directory : /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation
+Total : 8 files,  45455 codes, 151 comments, 226 blanks, all 45832 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| CSV      |          3 |     42,023 |          0 |          3 |     42,026 |
+| JSON     |          3 |      2,916 |          0 |          3 |      2,919 |
+| Python   |          2 |        516 |        151 |        220 |        887 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                              | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                 |          8 |     45,455 |        151 |        226 |     45,832 |
+| media                                                                             |          1 |      1,941 |          0 |          1 |      1,942 |
+| src                                                                               |          2 |        516 |        151 |        220 |        887 |
++-----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                          | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/Report.ipynb           | JSON     |        394 |          0 |          1 |        395 |
+| /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/Simulations.ipynb      | JSON     |      1,778 |          0 |          1 |      1,779 |
+| /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/Tests.ipynb            | JSON     |        744 |          0 |          1 |        745 |
+| /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/large_dams.csv         | CSV      |     19,981 |          0 |          1 |     19,982 |
+| /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/media/kerala_batch.csv | CSV      |      1,941 |          0 |          1 |      1,942 |
+| /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/small_dams.csv         | CSV      |     20,101 |          0 |          1 |     20,102 |
+| /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/src/CA.py              | Python   |        262 |         91 |        116 |        469 |
+| /Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/src/plotting_utils.py  | Python   |        254 |         60 |        104 |        418 |
+| Total                                                                             |          |     45,455 |        151 |        226 |     45,832 |
++-----------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

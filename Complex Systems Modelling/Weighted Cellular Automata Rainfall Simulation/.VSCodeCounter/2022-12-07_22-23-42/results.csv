@@ -1,0 +1,10 @@
+"filename", "language", "JSON", "Python", "CSV", "comment", "blank", "total"
+"/Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/Report.ipynb", "JSON", 394, 0, 0, 0, 1, 395
+"/Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/Simulations.ipynb", "JSON", 1778, 0, 0, 0, 1, 1779
+"/Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/Tests.ipynb", "JSON", 744, 0, 0, 0, 1, 745
+"/Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/large_dams.csv", "CSV", 0, 0, 19981, 0, 1, 19982
+"/Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/media/kerala_batch.csv", "CSV", 0, 0, 1941, 0, 1, 1942
+"/Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/small_dams.csv", "CSV", 0, 0, 20101, 0, 1, 20102
+"/Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/src/CA.py", "Python", 0, 262, 0, 91, 116, 469
+"/Users/andrevacha/Documents/Past/cs166/Rainfall_Simulation/src/plotting_utils.py", "Python", 0, 254, 0, 60, 104, 418
+"Total", "-", 2916, 516, 42023, 151, 226, 45832
